@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -85,11 +86,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         Fragment fragment = null;
 
         if (id == R.id.nav_animaciones) {
             // Instanciar el fragment de animaciones
             fragment = new AnimacionesFragment();
+
         } else if (id == R.id.nav_graficos) {
 
             lienzo = new GLSurfaceView(this);
@@ -97,7 +101,6 @@ public class MainActivity extends AppCompatActivity
 
             this.setContentView(lienzo);
 
-            //fragment = new GraficosFragment();
         } else if (id == R.id.nav_imagen) {
 
         } else if (id == R.id.nav_audio) {
@@ -110,8 +113,8 @@ public class MainActivity extends AppCompatActivity
             mInstanciarFragment(contenedor, fragment).commit();
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //drawer.closeDrawer(GravityCompat.START);
+
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
