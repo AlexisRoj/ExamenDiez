@@ -1,4 +1,4 @@
-package com.innovagenesis.aplicaciones.android.examendiez;
+package com.innovagenesis.aplicaciones.android.examendiez.fragments;
 
 
 import android.view.animation.Animation;
@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.innovagenesis.aplicaciones.android.examendiez.R;
 
 
 /**
@@ -36,6 +38,8 @@ public class AnimacionesFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view2) {
+
+                /*Inicia la animacion del */
 
                 View estrella = view.findViewById(R.id.estrella);
                 Animation animation = AnimationUtils.loadAnimation(getActivity(),R.anim.animation_estrella);

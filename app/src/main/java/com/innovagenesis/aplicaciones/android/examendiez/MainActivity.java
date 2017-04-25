@@ -1,13 +1,10 @@
 package com.innovagenesis.aplicaciones.android.examendiez;
 
 import android.annotation.SuppressLint;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,10 +14,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.innovagenesis.aplicaciones.android.examendiez.cubo.MyRenderer;
+import com.innovagenesis.aplicaciones.android.examendiez.fragments.AnimacionesFragment;
+import com.innovagenesis.aplicaciones.android.examendiez.fragments.GraficosFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private int contenedor = R.id.contenedor;
+    private GLSurfaceView lienzo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,12 @@ public class MainActivity extends AppCompatActivity
             fragment = new AnimacionesFragment();
         } else if (id == R.id.nav_graficos) {
 
+            lienzo = new GLSurfaceView(this);
+            lienzo.setRenderer(new MyRenderer(this));
+
+            this.setContentView(lienzo);
+
+            //fragment = new GraficosFragment();
         } else if (id == R.id.nav_imagen) {
 
         } else if (id == R.id.nav_audio) {
@@ -98,11 +106,12 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        mInstanciarFragment(contenedor, fragment).commit();
+        if (fragment != null)
+            mInstanciarFragment(contenedor, fragment).commit();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        //drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
