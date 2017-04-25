@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_animaciones"
+            android:icon="@drawable/ic_menu_animaciones"
+            android:title="@string/animaciones" />
+        <item
+            android:id="@+id/nav_graficos"
+            android:icon="@drawable/ic_menu_graficos"
+            android:title="@string/graficos" />
+        <item
+            android:id="@+id/nav_imagen"
+            android:icon="@drawable/ic_menu_imagen"
+            android:title="@string/imagen" />
+        <item
+            android:id="@+id/nav_audio"
+            android:icon="@drawable/ic_menu_audio"
+            android:title="@string/audio" />
+        <item
+            android:id="@+id/nav_video"
+            android:icon="@drawable/ic_menu_video"
+            android:title="@string/video" />
+
+
+    </group>
+
+
+</menu>
