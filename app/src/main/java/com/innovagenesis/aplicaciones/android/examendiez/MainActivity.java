@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
             fragment = new AnimacionesFragment();
 
         } else if (id == R.id.nav_graficos) {
-
+            // Ejecuta la animacion del grafico
             lienzo = new GLSurfaceView(this);
             lienzo.setRenderer(new MyRenderer(this));
 
