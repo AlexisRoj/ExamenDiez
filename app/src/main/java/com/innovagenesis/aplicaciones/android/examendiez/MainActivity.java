@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_CODE = 1;
     private static final String[] PERMISOS = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
 
     };
 
@@ -41,7 +41,10 @@ public class MainActivity extends AppCompatActivity
         int leer = ActivityCompat.checkSelfPermission
                 (this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        if(leer == PackageManager.PERMISSION_DENIED){
+        int grabar = ActivityCompat.checkSelfPermission
+                (this, Manifest.permission.RECORD_AUDIO);
+
+        if(leer == PackageManager.PERMISSION_DENIED || grabar == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, PERMISOS, REQUEST_CODE);
         }
 
