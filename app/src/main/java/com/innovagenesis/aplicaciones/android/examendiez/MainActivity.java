@@ -19,6 +19,7 @@ import android.view.MenuItem;
 
 import com.innovagenesis.aplicaciones.android.examendiez.cubo.MyRenderer;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.AnimacionesFragment;
+import com.innovagenesis.aplicaciones.android.examendiez.fragments.AudioFragment;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.CamaraFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -28,7 +29,9 @@ public class MainActivity extends AppCompatActivity
 
     private static final int REQUEST_CODE = 1;
     private static final String[] PERMISOS = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO
+
     };
 
     @Override
@@ -124,6 +127,8 @@ public class MainActivity extends AppCompatActivity
             fragment = new CamaraFragment();
 
         } else if (id == R.id.nav_audio) {
+
+            fragment = new AudioFragment();
 
         } else if (id == R.id.nav_video) {
 

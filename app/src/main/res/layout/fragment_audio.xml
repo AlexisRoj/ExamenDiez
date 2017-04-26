@@ -2,14 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.innovagenesis.aplicaciones.android.examendiez.fragments.CamaraFragment"
-    >
+    tools:context="com.innovagenesis.aplicaciones.android.examendiez.fragments.AudioFragment">
 
     <ImageView
         android:layout_width="300dp"
         android:layout_height="250dp"
         android:elevation="30dp"
-        android:src="@drawable/ic_menu_imagen"
+        android:src="@drawable/ic_menu_audio"
         android:background="@color/colorGris"
         android:id="@+id/imageView_foto"
         tools:targetApi="lollipop"
@@ -27,28 +26,37 @@
         android:layout_alignLeft="@+id/linearLayout"
         android:layout_alignStart="@+id/linearLayout" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reproducir_audio"
+        android:text="@string/reproducir_audio"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/linearLayout"
-        android:layout_margin="17dp"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@+id/reproducir_audio"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
-            android:id="@+id/abrir_foto"
+            android:id="@+id/abrir_audio"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/abrir"/>
 
         <Button
-            android:id="@+id/capturar_foto"
+            android:id="@+id/capturar_audio"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/capturar"/>
+            android:layout_weight="1"
+            android:text="@string/grabar" />
 
     </LinearLayout>
 
