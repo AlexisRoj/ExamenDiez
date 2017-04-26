@@ -1,8 +1,11 @@
 package com.innovagenesis.aplicaciones.android.examendiez;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -16,16 +19,29 @@ import android.view.MenuItem;
 
 import com.innovagenesis.aplicaciones.android.examendiez.cubo.MyRenderer;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.AnimacionesFragment;
-import com.innovagenesis.aplicaciones.android.examendiez.fragments.GraficosFragment;
+import com.innovagenesis.aplicaciones.android.examendiez.fragments.CamaraFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int contenedor = R.id.contenedor;
-    private GLSurfaceView lienzo;
+    private int contenedor = R.id.contenedor; //fragment para cambiar
+
+    private static final int REQUEST_CODE = 1;
+    private static final String[] PERMISOS = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /** Solicitud de permisos en versiones superiores*/
+        int leer = ActivityCompat.checkSelfPermission
+                (this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if(leer == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, PERMISOS, REQUEST_CODE);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -96,12 +112,16 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_graficos) {
             // Ejecuta la animacion del grafico
-            lienzo = new GLSurfaceView(this);
-            lienzo.setRenderer(new MyRenderer(this));
 
-            this.setContentView(lienzo);
+            this.setContentView(R.layout.content_main);
+
+            GLSurfaceView lienzo = new GLSurfaceView(this);
+            lienzo.setRenderer(new MyRenderer(this));
+            //this.setContentView(lienzo);
 
         } else if (id == R.id.nav_imagen) {
+
+            fragment = new CamaraFragment();
 
         } else if (id == R.id.nav_audio) {
 
