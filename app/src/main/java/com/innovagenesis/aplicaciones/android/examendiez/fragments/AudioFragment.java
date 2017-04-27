@@ -32,7 +32,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
     private Button buttonGrabar;
     private static String nombreAudio = null;
     private MediaRecorder mediaRecorder = null;
-    private MediaPlayer mediaPlayer = null;
+    //private MediaPlayer audio = null;
     private int aux = 0;
 
 
@@ -75,7 +75,6 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
                 intent.setType("audio/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Selecciona un audio"), Pick_song);
-                abrio_file = true;
                 break;
             }
 
@@ -88,7 +87,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
                     buttonReproducir.setText("Reproducir");
                 }
                 verificacion2 = !verificacion2;
-                abrio_file = false;
+
 
 
                 /*if (reproducir){
@@ -115,6 +114,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
                 grabando(verificacion);
                 if (verificacion) {
                     buttonGrabar.setText(getString(R.string.detenerG));
+                    abrio_file = false;
                 } else {
                     buttonGrabar.setText(R.string.iniciarG);
                 }
@@ -137,6 +137,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
                         audio = new MediaPlayer();
                         audio.setDataSource(getContext().getApplicationContext(), Uri.parse(patch));
                         audio.prepare();
+                        abrio_file = true;
 
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Erro al ejecutar el audio", Toast.LENGTH_SHORT).show();
@@ -151,6 +152,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
+        abrio_file = false;
 
         Toast.makeText(getContext(),
                 "Se ha guardado el audio en:\n" + Environment.getExternalStorageDirectory()
@@ -166,12 +168,17 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
     }
 
     private void comenzarReproduccion() {
-        mediaPlayer = new MediaPlayer();
+
         try {
-            if (!abrio_file)
-                mediaPlayer.setDataSource(nombreAudio);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            if (!abrio_file) {
+                audio = new MediaPlayer();
+                audio.setDataSource(nombreAudio);
+                audio.prepare();
+            }else{
+                //Continua la reproducion
+                audio.seekTo(aux);
+            }
+            audio.start();
         } catch (IOException e) {
             Toast.makeText(getContext(),
                     "Ha ocurrido un error en la reproducción", Toast.LENGTH_SHORT).show();
@@ -179,8 +186,15 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
     }
 
     private void detenerReproduccion() {
-        mediaPlayer.release();
-        mediaPlayer = null;
+        if (abrio_file) {
+            //Pausa la reproducion
+            audio.pause();
+            aux = audio.getCurrentPosition();
+        } else {
+            //Libera el audio
+            audio.release();
+            audio = null;
+        }
     }
 
     private void onPlay(boolean comenzarRep) {
@@ -220,9 +234,9 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
             mediaRecorder = null;
         }
 
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
+        if (audio != null) {
+            audio.release();
+            audio = null;
         }
     }
 }
