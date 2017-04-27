@@ -21,6 +21,7 @@ import com.innovagenesis.aplicaciones.android.examendiez.cubo.MyRenderer;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.AnimacionesFragment;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.AudioFragment;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.CamaraFragment;
+import com.innovagenesis.aplicaciones.android.examendiez.fragments.VideoFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_video) {
 
+            fragment = new VideoFragment();
         }
 
         if (fragment != null)
