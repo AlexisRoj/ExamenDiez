@@ -21,4 +21,6 @@
     <string name="pausar">Pausar</string>
     <string name="detenerG">Detener Grabación</string>
     <string name="iniciarG">Iniciar Grabación</string>
+    <string name="detener_rep">Detener reproducción</string>
+    <string name="reproducir">Reproducir</string>
 </resources>

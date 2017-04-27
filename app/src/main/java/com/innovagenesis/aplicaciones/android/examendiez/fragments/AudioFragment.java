@@ -25,19 +25,19 @@ import static android.app.Activity.RESULT_OK;
  */
 public class AudioFragment extends Fragment implements View.OnClickListener {
 
-    private View view;
-    private Boolean reproducir = true;
     private MediaPlayer audio = null;
     private Button buttonReproducir;
     private Button buttonGrabar;
     private static String nombreAudio = null;
     private MediaRecorder mediaRecorder = null;
-    //private MediaPlayer audio = null;
     private int aux = 0;
+
+    boolean grabarAudio = true;
+    boolean reproducirAudio = true;
 
 
     static final int Pick_song = 1;
-    private boolean abrio_file = false;
+    private boolean abrio_archivo = false;
 
     public AudioFragment() {
         // Required empty public constructor
@@ -48,7 +48,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_audio, container, false);
+        View view = inflater.inflate(R.layout.fragment_audio, container, false);
 
 
         buttonReproducir = (Button) view.findViewById(R.id.reproducir_audio);
@@ -63,67 +63,56 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    /***
+     * Selector de botones
+     * */
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
-
             case R.id.abrir_audio: {
-
+                /*
+                 * Boton de abrir audio
+                 * */
                 Intent intent = new Intent();
                 intent.setType("audio/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Selecciona un audio"), Pick_song);
                 break;
             }
-
             case R.id.reproducir_audio: {
-
-                onPlay(verificacion2);
-                if (verificacion2) {
-                    buttonReproducir.setText("Detener reproducción");
+                /*
+                * Boton de reproducir audio
+                * */
+                mReproducirAudio(reproducirAudio);
+                if (reproducirAudio) {
+                    buttonReproducir.setText(getString(R.string.detener_rep));
                 } else {
-                    buttonReproducir.setText("Reproducir");
+                    buttonReproducir.setText(getString(R.string.reproducir));
                 }
-                verificacion2 = !verificacion2;
-
-
-
-                /*if (reproducir){
-                    *//** Reproduce el audio*//*
-                    audio.seekTo(aux);
-                    audio.start();
-                    buttonReproducir.setText(getString(R.string.reproducir_audio));
-                    reproducir = false;
-
-                }else{
-                    *//** Pausa el audio*//*
-                    audio.pause();
-                    aux = audio.getCurrentPosition();
-                    buttonReproducir.setText(getString(R.string.pausar));
-                    reproducir = true;
-                }*/
+                reproducirAudio = !reproducirAudio;
                 break;
             }
-
             case R.id.capturar_audio: {
-
-                /** Nombre el fichero*/
-                nombreAudio = Environment.getExternalStorageDirectory() + "/audio.3gp";
-                grabando(verificacion);
-                if (verificacion) {
+                /*
+                 * Boton que graba el audio
+                 * */
+                nombreAudio = Environment.getExternalStorageDirectory() + "/audio.3gp";// Nombre el fichero
+                mGrabando(grabarAudio);
+                if (grabarAudio) {
                     buttonGrabar.setText(getString(R.string.detenerG));
-                    abrio_file = false;
+                    abrio_archivo = false;
                 } else {
                     buttonGrabar.setText(R.string.iniciarG);
                 }
-                verificacion = !verificacion;
+                grabarAudio = !grabarAudio;
             }
         }
 
     }
 
+    /**
+     * Trae la ruta del archivo abierto
+     * */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -137,7 +126,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
                         audio = new MediaPlayer();
                         audio.setDataSource(getContext().getApplicationContext(), Uri.parse(patch));
                         audio.prepare();
-                        abrio_file = true;
+                        abrio_archivo = true;
 
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Erro al ejecutar el audio", Toast.LENGTH_SHORT).show();
@@ -148,33 +137,42 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void detenerGrabacion() {
+    /**
+     * Ejecuta el proceso cuando se detiene la grabacion
+     */
+    private void mDetenerGrabacion() {
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
-        abrio_file = false;
+        abrio_archivo = false;
 
         Toast.makeText(getContext(),
                 "Se ha guardado el audio en:\n" + Environment.getExternalStorageDirectory()
                         + "/audio.3gp", Toast.LENGTH_LONG).show();
     }
 
-    private void grabando(boolean comenzado) {
+    /**
+     * identifica el estado del proceso
+     */
+    private void mGrabando(boolean comenzado) {
         if (comenzado) {
-            comenzarGrabacion();
+            mComenzarGrabacion();
         } else {
-            detenerGrabacion();
+            mDetenerGrabacion();
         }
     }
 
-    private void comenzarReproduccion() {
+    /**
+     * Inicia el proceso de grabación del audio
+     */
+    private void mComenzarReproduccion() {
 
         try {
-            if (!abrio_file) {
+            if (!abrio_archivo) {
                 audio = new MediaPlayer();
                 audio.setDataSource(nombreAudio);
                 audio.prepare();
-            }else{
+            } else {
                 //Continua la reproducion
                 audio.seekTo(aux);
             }
@@ -184,9 +182,11 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
                     "Ha ocurrido un error en la reproducción", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void detenerReproduccion() {
-        if (abrio_file) {
+    /**
+     * Detiene la grabación del audio
+     */
+    private void mDetenerReproduccion() {
+        if (abrio_archivo) {
             //Pausa la reproducion
             audio.pause();
             aux = audio.getCurrentPosition();
@@ -196,16 +196,20 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
             audio = null;
         }
     }
-
-    private void onPlay(boolean comenzarRep) {
+    /**
+     * Inicia la reproducion de un audio grabado o almacenado
+     */
+    private void mReproducirAudio(boolean comenzarRep) {
         if (comenzarRep) {
-            comenzarReproduccion();
+            mComenzarReproduccion();
         } else {
-            detenerReproduccion();
+            mDetenerReproduccion();
         }
     }
-
-    private void comenzarGrabacion() {
+    /**
+     * Inicia la grabacion
+     */
+    private void mComenzarGrabacion() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -218,12 +222,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
         } catch (IOException e) {
             Toast.makeText(getContext(), "No se grabará correctamente", Toast.LENGTH_SHORT).show();
         }
-
-
     }
-
-    boolean verificacion = true;
-    boolean verificacion2 = true;
 
     @Override
     public void onPause() {
