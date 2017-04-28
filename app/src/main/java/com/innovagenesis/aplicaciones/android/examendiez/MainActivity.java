@@ -7,6 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +24,7 @@ import com.innovagenesis.aplicaciones.android.examendiez.cubo.MyRenderer;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.AnimacionesFragment;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.AudioFragment;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.CamaraFragment;
+import com.innovagenesis.aplicaciones.android.examendiez.fragments.GraficoFragment;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.VideoFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -124,11 +126,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_graficos) {
             // Ejecuta la animacion del grafico
-            GLSurfaceView lienzo = new GLSurfaceView(this);
-            lienzo.setRenderer(new MyRenderer(this));
-            this.setContentView(lienzo);
-            getSupportActionBar().show();
-
+           Fragment fragment2 = new GraficoFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(contenedor,fragment2).commit();
 
 
         } else if (id == R.id.nav_imagen) {
