@@ -67,9 +67,9 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             case R.id.abrir_video: {
 
                 Intent intent = new Intent();
-                intent.setType("audio/*");
+                intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Selecciona un audio"), Pick_video);
+                startActivityForResult(Intent.createChooser(intent, "Selecciona un video"), Pick_video);
 
                 break;
             }
@@ -94,15 +94,25 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
-      /*  switch (requestCode) {
+  /*      switch (requestCode) {
             case Pick_video:
                 if (resultCode == RESULT_OK) {
-                    String patch = data.getDataString();
+                    //String patch = data.getDataString();
+
+                    Uri uri = data.getData();
 
                     try {
                         videoView = new VideoView(getContext());
-                        videoView.setVideoURI(Uri.parse(patch));
+
+
+                        MediaController mediaController = new MediaController(getContext());
+                        videoView.setMediaController(mediaController);
+                        videoView.setVideoURI(uri);
+                        //videoView.setVideoPath(patch);
+                        mediaController.setAnchorView(videoView);
+
+                        videoView.start();
+
 
 
                     } catch (Exception e) {
