@@ -102,23 +102,15 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             switch (requestCode) {
                 case Pick_video:
                     if (resultCode == RESULT_OK) {
-                        //String patch = data.getDataString();
-
-
                         String patch = data.getDataString();
-
                         try {
-
                             MediaController mediaController = new MediaController(getContext());
                             videoView.setMediaController(mediaController);
                             videoView.setVideoURI(Uri.parse(patch));
-                            //videoView.setVideoPath(patch);
                             mediaController.setAnchorView(videoView);
                             videoView.start();
-
                         } catch (Exception e) {
                             Toast.makeText(getContext(), "Erro al ejecutar el audio", Toast.LENGTH_SHORT).show();
-                            //videoView.start();
                         }
                     }
             }

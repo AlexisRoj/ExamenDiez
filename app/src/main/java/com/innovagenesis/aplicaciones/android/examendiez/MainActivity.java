@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.innovagenesis.aplicaciones.android.examendiez.cubo.MyRenderer;
 import com.innovagenesis.aplicaciones.android.examendiez.fragments.AnimacionesFragment;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private int contenedor = R.id.contenedor; //fragment para cambiar
+
+    Toolbar toolbar;
 
     private static final int REQUEST_CODE = 1;
     private static final String[] PERMISOS = {
@@ -51,7 +55,8 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -119,12 +124,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_graficos) {
             // Ejecuta la animacion del grafico
-
-            this.setContentView(R.layout.content_main);
-
             GLSurfaceView lienzo = new GLSurfaceView(this);
             lienzo.setRenderer(new MyRenderer(this));
-            //this.setContentView(lienzo);
+            this.setContentView(lienzo);
+            getSupportActionBar().show();
+
+
 
         } else if (id == R.id.nav_imagen) {
 
