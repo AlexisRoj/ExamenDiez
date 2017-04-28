@@ -35,6 +35,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     private Uri videoUri;
     private static int REQUEST_CODE_VIDEO = 1;
     static final int Pick_video = 1;
+    private String status = "En que estado esta";
 
     public VideoFragment() {
         // Required empty public constructor
@@ -53,7 +54,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
 
         buttonAbrirVideo.setOnClickListener(this);
         buttonGuardarVideo.setOnClickListener(this);
-        videoView = (VideoView)view.findViewById(R.id.videoView_video);
+        videoView = (VideoView) view.findViewById(R.id.videoView_video);
 
 
         return view;
@@ -70,7 +71,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Selecciona un video"), Pick_video);
-
+                status = getString(R.string.abrir);
                 break;
             }
             case R.id.capturar_video: {
@@ -80,10 +81,11 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                 Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 File videosFolder = new File(Environment.getExternalStorageDirectory(), "VideosNextU");
                 videosFolder.mkdirs();
-                File video = new File(videosFolder, "video.mp4");
+                File video = new File(videosFolder, "videos.mp4");
                 videoUri = Uri.fromFile(video);
                 videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
                 startActivityForResult(videoIntent, REQUEST_CODE_VIDEO);
+                status = getString(R.string.grabar);
                 break;
             }
         }
@@ -94,40 +96,39 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-  /*      switch (requestCode) {
-            case Pick_video:
-                if (resultCode == RESULT_OK) {
-                    //String patch = data.getDataString();
 
-                    Uri uri = data.getData();
+        if (status.equals(getString(R.string.abrir))) {
 
-                    try {
-                        videoView = new VideoView(getContext());
+            switch (requestCode) {
+                case Pick_video:
+                    if (resultCode == RESULT_OK) {
+                        //String patch = data.getDataString();
 
 
-                        MediaController mediaController = new MediaController(getContext());
-                        videoView.setMediaController(mediaController);
-                        videoView.setVideoURI(uri);
-                        //videoView.setVideoPath(patch);
-                        mediaController.setAnchorView(videoView);
+                        String patch = data.getDataString();
 
-                        videoView.start();
+                        try {
 
+                            MediaController mediaController = new MediaController(getContext());
+                            videoView.setMediaController(mediaController);
+                            videoView.setVideoURI(Uri.parse(patch));
+                            //videoView.setVideoPath(patch);
+                            mediaController.setAnchorView(videoView);
+                            videoView.start();
 
-
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Erro al ejecutar el audio", Toast.LENGTH_SHORT).show();
-                        videoView.start();
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), "Erro al ejecutar el audio", Toast.LENGTH_SHORT).show();
+                            //videoView.start();
+                        }
                     }
-                }
-        }*/
-
-        mGrabarVideo(requestCode, resultCode);
+            }
+        } else
+            mGrabarVideo(requestCode, resultCode);
     }
 
     /**
      * Método encargado de grabar los videos y almacenarlos
-     * */
+     */
     private void mGrabarVideo(int requestCode, int resultCode) {
         if (requestCode == REQUEST_CODE_VIDEO && resultCode == RESULT_OK) {
             Toast.makeText(getContext(),
@@ -138,7 +139,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             videoView.setMediaController(mediaController);
             videoView.setVideoURI(videoUri);
             videoView.start();
-
             mediaController.setAnchorView(videoView);
 
             videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
