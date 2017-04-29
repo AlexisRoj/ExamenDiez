@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.innovagenesis.aplicaciones.android.examendiez.R;
 import com.innovagenesis.aplicaciones.android.examendiez.cubo.MyRenderer;
@@ -27,15 +28,16 @@ public class GraficoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View fragment = inflater.inflate(R.layout.fragment_grafico, container, false);
+        View view = inflater.inflate(R.layout.fragment_grafico, container, false);
+
 
         GLSurfaceView lienzo = new GLSurfaceView(getContext());
         lienzo.setRenderer(new MyRenderer(getContext()));
-        //getActivity().setContentView(lienzo);
+        // Instancia un linear layout donde se van a mostrar la animacion
+        LinearLayout LinearRemplazar = (LinearLayout) view.findViewById(R.id.contenedor_grafica);
+        LinearRemplazar.addView(lienzo);
 
-
-
-        return fragment;
+        return view;
     }
 
 }
