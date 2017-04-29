@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -36,6 +37,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     private static int REQUEST_CODE_VIDEO = 1;
     static final int Pick_video = 1;
     private String status = "En que estado esta";
+    private TextView textView;
 
     public VideoFragment() {
         // Required empty public constructor
@@ -55,7 +57,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         buttonAbrirVideo.setOnClickListener(this);
         buttonGuardarVideo.setOnClickListener(this);
         videoView = (VideoView) view.findViewById(R.id.videoView_video);
-
+        textView = (TextView) view.findViewById(R.id.textView2);
 
         return view;
     }
@@ -108,6 +110,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                             videoView.setMediaController(mediaController);
                             videoView.setVideoURI(Uri.parse(patch));
                             mediaController.setAnchorView(videoView);
+                            textView.setText(patch);
                             videoView.start();
                         } catch (Exception e) {
                             Toast.makeText(getContext(), "Erro al ejecutar el audio", Toast.LENGTH_SHORT).show();
@@ -130,6 +133,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             MediaController mediaController = new MediaController(getContext());
             videoView.setMediaController(mediaController);
             videoView.setVideoURI(videoUri);
+            textView.setText(String.format("%s/VideosNextU/video.mp4", Environment.getExternalStorageDirectory()));
             videoView.start();
             mediaController.setAnchorView(videoView);
 

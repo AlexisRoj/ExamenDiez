@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovagenesis.aplicaciones.android.examendiez.R;
@@ -35,6 +36,7 @@ public class CamaraFragment extends Fragment implements View.OnClickListener {
     Bitmap bitmap = null;
     ImageView imageView;
     View view;
+    TextView textView;
 
     public CamaraFragment() {
         // Required empty public constructor
@@ -51,6 +53,7 @@ public class CamaraFragment extends Fragment implements View.OnClickListener {
         imageView = (ImageView) view.findViewById(R.id.imageView_foto);
         Button buttonAbrir = (Button) view.findViewById(R.id.abrir_foto);
         Button buttonCaptaurar = (Button) view.findViewById(R.id.capturar_foto);
+        textView = (TextView) view.findViewById(R.id.textViewCamara);
 
         buttonAbrir.setOnClickListener(this);
         buttonCaptaurar.setOnClickListener(this);
@@ -116,6 +119,8 @@ public class CamaraFragment extends Fragment implements View.OnClickListener {
         Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()
                 + "/CamaraFolder/foto.jpg");
 
+        textView.setText(String.format("%s/CamaraFolder/foto.jpg", Environment.getExternalStorageDirectory()));
+
         int height = bitmap.getHeight();
         int width = bitmap.getWidth();
 
@@ -143,6 +148,7 @@ public class CamaraFragment extends Fragment implements View.OnClickListener {
         cursor.moveToFirst();
         int columna = cursor.getColumnIndex(path[0]);
         String pathimagen = cursor.getString(columna);
+        textView.setText(pathimagen);
         cursor.close();
         bitmap = BitmapFactory.decodeFile(pathimagen);
         //BitmapFactory.Options options= new BitmapFactory.Options();

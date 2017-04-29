@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovagenesis.aplicaciones.android.examendiez.R;
@@ -31,6 +32,7 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
     private static String nombreAudio = null;
     private MediaRecorder mediaRecorder = null;
     private int aux = 0;
+    private TextView textView;
 
     boolean grabarAudio = true;
     boolean reproducirAudio = true;
@@ -54,6 +56,8 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
         buttonReproducir = (Button) view.findViewById(R.id.reproducir_audio);
         buttonGrabar = (Button) view.findViewById(R.id.capturar_audio);
         Button buttonAbrir = (Button) view.findViewById(R.id.abrir_audio);
+        textView = (TextView) view.findViewById(R.id.textAudio);
+
 
         buttonReproducir.setOnClickListener(this);
         buttonGrabar.setOnClickListener(this);
@@ -122,10 +126,12 @@ public class AudioFragment extends Fragment implements View.OnClickListener {
                 if (resultCode == RESULT_OK) {
                     String patch = data.getDataString();
 
+
                     try {
                         audio = new MediaPlayer();
                         audio.setDataSource(getContext().getApplicationContext(), Uri.parse(patch));
                         audio.prepare();
+                        textView.setText(patch);
                         abrio_archivo = true;
 
                     } catch (Exception e) {

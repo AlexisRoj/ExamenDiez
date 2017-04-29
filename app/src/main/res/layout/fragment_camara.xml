@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,8 @@
         android:layout_width="300dp"
         android:layout_height="250dp"
         android:elevation="30dp"
-        android:src="@drawable/ic_menu_imagen"
+        android:tint="@color/colorAccent"
+        app:srcCompat="@drawable/ic_menu_imagen"
         android:background="@color/colorGris"
         android:id="@+id/imageView_foto"
         tools:targetApi="lollipop"
@@ -21,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ningun_achivo_selecionado"
-        android:id="@+id/textView2"
+        android:id="@+id/textViewCamara"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/imageView_foto"
         android:layout_alignLeft="@+id/linearLayout"
@@ -33,7 +35,7 @@
         android:orientation="horizontal"
         android:id="@+id/linearLayout"
         android:layout_margin="17dp"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/textViewCamara"
         android:layout_centerHorizontal="true">
 
         <Button
